@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include "lex.h"
 
@@ -21,14 +22,23 @@ void test_lex() {
 }
 
 int load_file(char *filename) {
+	char *buffer = 0;
+	long length;
 	fp = fopen(filename, "r");
-	if (fp == NULL) {
+	if (!fp) {
 		fprintf(stderr, "Cannot open file %s.\n", filename);
 		return 2;
 	}
 
-	printf("opened %s\n", filename);
-
+	fseek(fp,0, SEEK_END);
+	length = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+	buffer = malloc(length);
+	if (!buffer) {
+		fprintf(stderr, "Cannot allocate bufffer to read source\n");
+		return 3;
+	}
+	fread(buffer, 1, length, fp);
 	fclose(fp);
 	return 0;
 
