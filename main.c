@@ -20,22 +20,27 @@ void test_lex() {
 	}
 }
 
+int load_file(char *filename) {
+	fp = fopen(filename, "r");
+	if (fp == NULL) {
+		fprintf(stderr, "Cannot open file %s.\n", filename);
+		return 2;
+	}
+
+	printf("opened %s\n", filename);
+
+	fclose(fp);
+	return 0;
+
+}
 int main(int argc, char *argv[])
 {
 	test_lex();
-	return 0;
 
 	if (argc == 1) {
 		fprintf(stderr, "No arguments\n");
 		return 1;
 	}
 
-	fp = fopen(argv[1], "r");
-	if (fp == NULL) {
-		fprintf(stderr, "Cannot open file %s.\n", argv[1]);
-		return 2;
-	}
-
-	fclose(fp);
-	return 0;
+	return load_file(argv[1]);
 }

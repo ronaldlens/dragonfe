@@ -53,7 +53,7 @@ Token *token_get_word(char *lexeme) {
 	Word *word;
 	word = word_list;
 	while(1) {
-		if (word == NULL) {
+		if (word == NULL || word->lexeme == NULL) {
 			return NULL;
 		}
 		if (strcmp(lexeme, word->lexeme)==0) {
@@ -91,4 +91,5 @@ void token_free_words() {
 		token_free_word(current);
 		current = next;
 	}
+	word_list = NULL;
 }
